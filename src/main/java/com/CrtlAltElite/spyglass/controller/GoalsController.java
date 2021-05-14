@@ -22,6 +22,8 @@ import com.CrtlAltElite.spyglass.model.*;
 import com.CrtlAltElite.spyglass.repository.*;
 
 
+
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/")
@@ -31,63 +33,38 @@ public class GoalsController {
 	@Autowired
 	GoalsRepository goalsRepository;
 	
+//get goal by id
+		 @GetMapping("goals/{id}")
+		 public Goals getGoalsById(@PathVariable(value="id") long id) {
+			 return goalsRepository.findById(id);
+		 }
+		 
+//get all goals
+		 @GetMapping("goal-list")
+		 public List<Goals> getAllGoals(){
+			 return goalsRepository.findAll();
+		 }
 	
-	//get all goals for list 
-	@GetMapping("goal-list")
-	 public List<Goals> getAllGoals(){
-		 return goalsRepository.findAll();
-	 }
-	
-	//get goal by id 
-	@GetMapping("/goals/{id}")
-	public ResponseEntity<Goals> getGoalsById(@PathVariable("id") long id)
-	{
-		Optional<Goals> goalsData = goalsRepository.findById(id);
 
-	    if (goalsData.isPresent()) 
-	    {
-	      return new ResponseEntity<>(goalsData.get(), HttpStatus.OK);
-	    } 
-	    else 
-	    {
-	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-	}
+ //add a goal
+		
+		 @PostMapping("goals/add")
+		 @ResponseStatus(HttpStatus.CREATED)
+		 public Goals addGoals( @RequestBody Goals goal){
+			 return goalsRepository.save(goal);
+		 }
 	 
-	 
-	 @GetMapping("goals/{id}")
-	 public List<Goals> getGoalsById(@PathVariable(value="id") int id) {
-		 return goalsRepository.findById(id);
-	 }
-	 
-	 //add a goal
-
-	 @PostMapping("goals/add")
-		public ResponseEntity<Goals> createCustomer(@RequestBody Goals goal) 
-		{
-		    try 
-		    {
-		    	Goals _goal = goalsRepository.save(new goal (goal.getId(), goal.getDescription(), goal.getPicture(), goal.get()));
-		      
-		      return new ResponseEntity<>(_goal, HttpStatus.CREATED);
-		    } 
-		    catch (Exception e) 
-		    {
-		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		    }
-		}
-	 
-	 //update an employee
-	 @PutMapping("goals/{id}")
-	 public ResponseEntity<Object> updateEmployee(
+	 //update a goal 
+	 @PutMapping("goals/update/{id}")
+	 public ResponseEntity<Object> updateGoals(
 			 @RequestBody Goals goal, 
-			 @PathVariable int id ){
-		 Optional<Goals> goalsRepo =
+			 @PathVariable long id ){
+		 Optional<Goals> goalsRepository =
 				 Optional.ofNullable(
 						 goalsRepository.findById(id));
-		 if (!goalsRepo.isPresent())
+		 if (!goalsRepository.isPresent())
 			 return ResponseEntity.notFound().build();
-		 goal.setEmployeeid(id);
+		 goal.setId(id);
 		 goalsRepository.save(goal);
 		 return ResponseEntity.noContent().build();
 	 }

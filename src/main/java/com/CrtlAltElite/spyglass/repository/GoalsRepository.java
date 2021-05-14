@@ -10,5 +10,5 @@ import com.CrtlAltElite.spyglass.model.*;
 @Repository
 public interface GoalsRepository extends JpaRepository <Goals,Long>{
 	List<Goals> findAll();
-	List<Goals> findById(long id);
+	Goals findById(long id);
 }
