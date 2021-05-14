@@ -25,9 +25,10 @@ public class Goals {
 	@Column(name="description")
 	private String description;
 	
-	@Lob
-	@Column(name="picture", columnDefinition="BLOB")
-	private byte[] picture;
+//	@Lob
+//	@Column(name="picture", columnDefinition="BLOB")
+	@Column(name="picture")
+	private String picture;
 	
 	@Column(name="target_date")
 	private Date targetDate;
@@ -36,10 +37,12 @@ public class Goals {
 	private double targetAmount;
 	
 	@Column(name="current_amount")
-	private int currentAmount;
+	private double currentAmount;
+	
+	public Goals () {}
 
-	public Goals(long id, String name, String description, byte[] picture, Date targetDate, double targetAmount,
-			int currentAmount) {
+	public Goals(long id, String name, String description, String picture, Date targetDate, double targetAmount,
+			double currentAmount) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -50,8 +53,8 @@ public class Goals {
 		this.currentAmount = currentAmount;
 	}
 
-	public Goals(String name, String description, byte[] picture, Date targetDate, double targetAmount,
-			int currentAmount) {
+	public Goals(String name, String description, String picture, Date targetDate, double targetAmount,
+		double currentAmount) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -85,11 +88,11 @@ public class Goals {
 		this.description = description;
 	}
 
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 
@@ -109,18 +112,18 @@ public class Goals {
 		this.targetAmount = targetAmount;
 	}
 
-	public int getCurrentAmount() {
+	public double getCurrentAmount() {
 		return currentAmount;
 	}
 
-	public void setCurrentAmount(int currentAmount) {
+	public void setCurrentAmount(double currentAmount) {
 		this.currentAmount = currentAmount;
 	}
 
 	@Override
 	public String toString() {
 		return "Goals [id=" + id + ", name=" + name + ", description=" + description + ", picture="
-				+ Arrays.toString(picture) + ", targetDate=" + targetDate + ", targetAmount=" + targetAmount
+				+ picture + ", targetDate=" + targetDate + ", targetAmount=" + targetAmount
 				+ ", currentAmount=" + currentAmount + "]";
 	}
 	
