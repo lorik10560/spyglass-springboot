@@ -67,7 +67,7 @@ public class GoalsController {
 //		 return ResponseEntity.noContent().build();
 //	 }
 	 @PutMapping("goals/update/{id}")
-		public String updateGoals(@PathVariable(value="id") Long id, @RequestBody Goals goalDetails) {
+		public ResponseEntity<Goals> updateGoals(@PathVariable(value="id") Long id, @RequestBody Goals goalDetails) {
 			Optional<Goals> optional = goalsRepository.findById(id);
 			Goals goal = null;
 			if (optional.isPresent()) {
@@ -80,10 +80,10 @@ public class GoalsController {
 				goal.setTargetAmount(goalDetails.getTargetAmount());
 				goal.setCurrentAmount(goalDetails.getCurrentAmount());	 
 	 
-				Goals updateGoals = goalsRepository.save(goal);
-				return updateGoals.toString();
+//				Goals updateGoals = goalsRepository.save(goal);
+				return new ResponseEntity<>(goalsRepository.save(goal),HttpStatus.OK);
 			} else {
-				return "ERROR - ORDER NOT FOUND";
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		}
 	 //delete goals
